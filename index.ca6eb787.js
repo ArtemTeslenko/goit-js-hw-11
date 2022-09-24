@@ -1,2 +1,0 @@
-!function(){var e={listEl:document.querySelector(".list"),formEl:document.querySelector(".search-form")};function t(t){var n=function(e){return e.hits.reduce((function(e,t){return e+'<li><img src="'.concat(t.previewURL,'" alt=""></img></li>')})," ")}(t);e.listEl.insertAdjacentHTML("beforeend",n)}fetch("".concat("https://pixabay.com/api/","?key=").concat("30103302-a3ef06cdfdc78e2e196d775c9","&q=cat&image_type=photo&orientation=horizontal&safesearch=true")).then((function(e){return e.json()})).then(t)}();
-//# sourceMappingURL=index.ca6eb787.js.map
