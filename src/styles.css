@@ -14,17 +14,19 @@ img {
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+  margin-bottom: 30px;
   background-color: rgb(120, 120, 237);
 }
 
-.list {
+.gallery {
   display: flex;
   flex-wrap: wrap;
   padding: 0;
+  margin-bottom: 30px;
   gap: 30px;
 }
 
-.card {
+.photo-card {
   width: calc(25% - 30px + (30px / 4));
 }
 
@@ -38,7 +40,7 @@ img {
   object-fit: cover;
 }
 
-.card-info {
+.info {
   display: flex;
   justify-content: space-around;
   margin: 0;
@@ -50,20 +52,25 @@ img {
   border-bottom-left-radius: 4px;
 }
 
-.card-item {
+.info-item {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.card-header {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 16px;
-}
-
-.card-data {
   margin: 0;
-  font-size: 14px;
+}
+
+.info-item > b {
+  margin-bottom: 5px;
+}
+
+.load-more {
+  display: block;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.is-hidden {
+  visibility: hidden;
+  opacity: 0;
 }
