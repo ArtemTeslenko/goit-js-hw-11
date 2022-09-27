@@ -1,8 +1,8 @@
 import { clearMarkup, rendering } from './rendering';
 import { refs } from './variables';
 import ImgService from './imgService';
-import * as notifications from './notifications';
 import BtnControl from './btnControl';
+import Notification from './notifications';
 
 refs.formEl.addEventListener('submit', onSearch);
 refs.loadMoreBtnEl.addEventListener('click', fetchImages);
@@ -12,6 +12,7 @@ const loadMoreBtn = new BtnControl({
   selector: '.load-more',
   hidden: true,
 });
+const note = new Notification();
 
 function onSearch(e) {
   e.preventDefault();
@@ -19,7 +20,7 @@ function onSearch(e) {
   clearMarkup();
   imgService.query = e.currentTarget.elements.searchQuery.value;
   if (imgService.query === '') {
-    return notifications.invalidSearchParams();
+    return note.getNotification('noMatch');
   }
 
   loadMoreBtn.show();
@@ -31,6 +32,13 @@ function fetchImages() {
   loadMoreBtn.desable();
   imgService.fetchImgs().then(data => {
     loadMoreBtn.enable();
+    if (
+      data.totalHits === imgService.hitsAmount &&
+      imgService.hitsAmount >= 1
+    ) {
+      note.getNotification('richEnd');
+      loadMoreBtn.hide();
+    }
     return rendering(data);
   });
 }

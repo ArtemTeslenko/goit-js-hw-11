@@ -1,7 +1,20 @@
 import Notiflix from 'notiflix';
 
-export function invalidSearchParams() {
-  Notiflix.Notify.failure(
-    'Sorry, there are no images matching your search query. Please try again.'
-  );
+export default class Notification {
+  constructor() {
+    this.option = this.textOptions();
+  }
+  textOptions() {
+    const options = {
+      noMatch:
+        'Sorry, there are no images matching your search query. Please try again.',
+      richEnd: "We're sorry, but you've reached the end of search results.",
+    };
+
+    return options;
+  }
+  getNotification(value) {
+    console.log(this);
+    Notiflix.Notify.failure(`${this.option[value]}`);
+  }
 }

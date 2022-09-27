@@ -1,9 +1,16 @@
 import { refs } from './variables';
-import * as notifications from './notifications';
+import Notification from './notifications';
+import BtnControl from './btnControl';
+
+const note = new Notification();
+const loadMoreBtn = new BtnControl({
+  selector: '.load-more',
+});
 
 export function rendering(data) {
   if (data.hits.length === 0) {
-    notifications.invalidSearchParams();
+    note.getNotification('noMatch');
+    loadMoreBtn.hide();
     return;
   }
   const markup = createMarkup(data);
