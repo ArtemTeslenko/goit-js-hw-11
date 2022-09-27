@@ -5,11 +5,12 @@ import * as notifications from './notifications';
 import BtnControl from './btnControl';
 
 refs.formEl.addEventListener('submit', onSearch);
-refs.loadMoreBtnEl.addEventListener('click', onLoadMoreClick);
+refs.loadMoreBtnEl.addEventListener('click', fetchImages);
 
 const imgService = new ImgService();
 const loadMoreBtn = new BtnControl({
   selector: '.load-more',
+  hidden: true,
 });
 
 function onSearch(e) {
@@ -20,10 +21,16 @@ function onSearch(e) {
   if (imgService.query === '') {
     return notifications.invalidSearchParams();
   }
+
+  loadMoreBtn.show();
   imgService.resetPage();
-  imgService.fetchImgs().then(rendering);
+  fetchImages();
 }
 
-function onLoadMoreClick() {
-  imgService.fetchImgs().then(rendering);
+function fetchImages() {
+  loadMoreBtn.desable();
+  imgService.fetchImgs().then(data => {
+    loadMoreBtn.enable();
+    return rendering(data);
+  });
 }
