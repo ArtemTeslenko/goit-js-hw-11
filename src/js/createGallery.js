@@ -12,13 +12,22 @@ const loadMoreBtn = new BtnControl({
   selector: '.load-more',
   hidden: true,
 });
+
+// TO DELETE ---------------------
+const searchBtn = new BtnControl({
+  selector: '.search',
+  hidden: false,
+});
+
 const note = new Notification();
 
 function onSearch(e) {
   e.preventDefault();
 
   clearMarkup();
+  imgService.resetHits();
   imgService.query = e.currentTarget.elements.searchQuery.value;
+
   if (imgService.query === '') {
     return note.getNotification('noMatch');
   }
@@ -29,7 +38,7 @@ function onSearch(e) {
 }
 
 function fetchImages() {
-  loadMoreBtn.desable();
+  loadMoreBtn.disable();
   imgService.fetchImgs().then(data => {
     loadMoreBtn.enable();
     if (

@@ -22,8 +22,10 @@ export default class BtnControl {
     this.refs.button.disabled = false;
     this.refs.spinner.classList.add('is-hidden');
   }
-  desable() {
+  disable() {
     this.refs.button.disabled = true;
-    this.refs.spinner.classList.remove('is-hidden');
+    if (this.refs.spinner) {
+      this.refs.spinner.classList.remove('is-hidden');
+    }
   }
 }

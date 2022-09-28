@@ -14,7 +14,6 @@ export default class Notification {
     return options;
   }
   getNotification(value) {
-    console.log(this);
     Notiflix.Notify.failure(`${this.option[value]}`);
   }
 }

@@ -33,6 +33,10 @@ export default class ImgService {
     this.page = 1;
   }
 
+  resetHits() {
+    this.hits = 0;
+  }
+
   get hitsAmount() {
     return this.hits;
   }
