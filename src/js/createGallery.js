@@ -3,20 +3,16 @@ import { refs } from './variables';
 import ImgService from './imgService';
 import BtnControl from './btnControl';
 import Notification from './notifications';
+import { upBtnClassToggle } from './upButton';
 
 refs.formEl.addEventListener('submit', onSearch);
 refs.loadMoreBtnEl.addEventListener('click', fetchImages);
+window.addEventListener('scroll', upBtnClassToggle);
 
 const imgService = new ImgService();
 const loadMoreBtn = new BtnControl({
   selector: '.load-more',
   hidden: true,
-});
-
-// TO DELETE ---------------------
-const searchBtn = new BtnControl({
-  selector: '.search',
-  hidden: false,
 });
 
 const note = new Notification();

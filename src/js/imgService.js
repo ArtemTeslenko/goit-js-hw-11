@@ -9,16 +9,13 @@ export default class ImgService {
     this.hits = 0;
   }
 
-  fetchImgs() {
-    return axios
-      .get(
-        `${PIX_ROUTE}${PIX_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=40`
-      )
-      .then(response => {
-        this.page += 1;
-        this.hits += response.data.hits.length;
-        return response.data;
-      });
+  async fetchImgs() {
+    const fetchResult = await axios.get(
+      `${PIX_ROUTE}${PIX_KEY}&q=${this.searchQuery}&image_type=photo&orientation=horizontal&safesearch=true&page=${this.page}&per_page=40`
+    );
+    this.page += 1;
+    this.hits += fetchResult.data.hits.length;
+    return fetchResult.data;
   }
 
   get query() {
