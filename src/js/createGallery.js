@@ -2,8 +2,9 @@ import { clearMarkup, rendering } from './rendering';
 import { refs } from './variables';
 import ImgService from './imgService';
 import BtnControl from './btnControl';
-import Notification from './notifications';
 import { upBtnClassToggle } from './upButton';
+import Notiflix from 'notiflix';
+import { options } from './notifications';
 
 refs.formEl.addEventListener('submit', onSearch);
 refs.loadMoreBtnEl.addEventListener('click', fetchImages);
@@ -15,8 +16,6 @@ const loadMoreBtn = new BtnControl({
   hidden: true,
 });
 
-const note = new Notification();
-
 function onSearch(e) {
   e.preventDefault();
 
@@ -25,7 +24,7 @@ function onSearch(e) {
   imgService.query = e.currentTarget.elements.searchQuery.value;
 
   if (imgService.query === '') {
-    return note.getNotification('noMatch');
+    return Notiflix.Notify.failure(options.noMatch);
   }
 
   loadMoreBtn.show();
@@ -37,11 +36,14 @@ function fetchImages() {
   loadMoreBtn.disable();
   imgService.fetchImgs().then(data => {
     loadMoreBtn.enable();
+    if (data.totalHits > 0 && imgService.page < 3) {
+      Notiflix.Notify.success(options.success(data.totalHits));
+    }
     if (
       data.totalHits === imgService.hitsAmount &&
       imgService.hitsAmount >= 1
     ) {
-      note.getNotification('richEnd');
+      Notiflix.Notify.failure(options.richEnd);
       loadMoreBtn.hide();
     }
     return rendering(data);

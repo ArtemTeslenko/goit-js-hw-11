@@ -26,15 +26,19 @@ export default class ImgService {
     this.searchQuery = newQuery;
   }
 
+  get pageCount() {
+    return this.page;
+  }
+
+  get hitsAmount() {
+    return this.hits;
+  }
+
   resetPage() {
     this.page = 1;
   }
 
   resetHits() {
     this.hits = 0;
-  }
-
-  get hitsAmount() {
-    return this.hits;
   }
 }

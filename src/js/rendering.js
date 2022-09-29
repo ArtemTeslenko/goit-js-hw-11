@@ -1,15 +1,26 @@
 import { refs } from './variables';
-import Notification from './notifications';
+import { options } from './notifications';
 import BtnControl from './btnControl';
+import Notiflix from 'notiflix';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const note = new Notification();
+const gallery = new SimpleLightbox('.gallery a', {
+  captions: true,
+  captionSelector: 'img',
+  captionType: 'attr',
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+});
+
 const loadMoreBtn = new BtnControl({
   selector: '.load-more',
 });
 
 export function rendering(data) {
   if (data.hits.length === 0) {
-    note.getNotification('noMatch');
+    Notiflix.Notify.failure(options.noMatch);
     loadMoreBtn.hide();
     return;
   }
@@ -28,7 +39,7 @@ function createMarkup(data) {
       { likes, views, comments, downloads, tags, webformatURL, largeImageURL }
     ) =>
       (acc += `<div class="photo-card">
-        <div class="thumb">
+        <a href="${largeImageURL}" target="_self" rel="noreferrer noopener"><div class="thumb">
           <img class="prev-img" src="${webformatURL}" alt="${tags}" loading="lazy" />
           </div>
           <div class="info">
@@ -49,7 +60,7 @@ function createMarkup(data) {
               <span class="info-data">${downloads}</span>
             </p>
           </div>
-        </div>`),
+        </div></a>`),
     ' '
   );
 }

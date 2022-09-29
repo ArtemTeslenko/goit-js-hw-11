@@ -10,6 +10,11 @@ img {
   display: block;
 }
 
+a {
+  text-decoration: none;
+  color: #000;
+}
+
 .search-form {
   text-align: center;
   padding-top: 10px;
