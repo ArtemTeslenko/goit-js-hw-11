@@ -5,6 +5,8 @@ import BtnControl from './btnControl';
 import { upBtnClassToggle } from './upButton';
 import Notiflix from 'notiflix';
 import { options } from './notifications';
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 
 refs.formEl.addEventListener('submit', onSearch);
 refs.loadMoreBtnEl.addEventListener('click', fetchImages);
@@ -15,6 +17,8 @@ const loadMoreBtn = new BtnControl({
   selector: '.load-more',
   hidden: true,
 });
+const lightbox = new SimpleLightbox('.gallery a', {});
+lightbox.on('show.simplelightbox', function () {});
 
 function onSearch(e) {
   e.preventDefault();
@@ -46,6 +50,23 @@ function fetchImages() {
       Notiflix.Notify.failure(options.richEnd);
       loadMoreBtn.hide();
     }
-    return rendering(data);
+
+    rendering(data);
+    lightbox.refresh();
+    if (imgService.page > 2) {
+      autoscroll();
+    }
+    return;
+  });
+}
+
+function autoscroll() {
+  const { height: cardHeight } = document
+    .querySelector('.gallery')
+    .firstElementChild.getBoundingClientRect();
+
+  window.scrollBy({
+    top: cardHeight * 2,
+    behavior: 'smooth',
   });
 }

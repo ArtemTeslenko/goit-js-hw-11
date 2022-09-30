@@ -2,17 +2,6 @@ import { refs } from './variables';
 import { options } from './notifications';
 import BtnControl from './btnControl';
 import Notiflix from 'notiflix';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
-
-const gallery = new SimpleLightbox('.gallery a', {
-  captions: true,
-  captionSelector: 'img',
-  captionType: 'attr',
-  captionsData: 'alt',
-  captionPosition: 'bottom',
-  captionDelay: 250,
-});
 
 const loadMoreBtn = new BtnControl({
   selector: '.load-more',
@@ -38,9 +27,9 @@ function createMarkup(data) {
       acc,
       { likes, views, comments, downloads, tags, webformatURL, largeImageURL }
     ) =>
-      (acc += `<div class="photo-card">
-        <a href="${largeImageURL}" target="_self" rel="noreferrer noopener"><div class="thumb">
-          <img class="prev-img" src="${webformatURL}" alt="${tags}" loading="lazy" />
+      (acc += `<div class="gallery__item photo-card">
+        <div class="thumb">
+          <a class="gallery__link" href="${largeImageURL}"><img class="gallery__image prev-img" src="${webformatURL}" alt="${tags}" loading="lazy" /></a>
           </div>
           <div class="info">
             <p class="info-item">
@@ -60,7 +49,7 @@ function createMarkup(data) {
               <span class="info-data">${downloads}</span>
             </p>
           </div>
-        </div></a>`),
+        </div>`),
     ' '
   );
 }
