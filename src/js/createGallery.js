@@ -1,16 +1,19 @@
-import { clearMarkup, rendering } from './rendering';
-import { refs } from './variables';
-import ImgService from './imgService';
-import BtnControl from './btnControl';
-import { upBtnClassToggle } from './upButton';
 import Notiflix from 'notiflix';
-import { options } from './notifications';
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import { clearMarkup, rendering } from './rendering';
+import { refs } from './variables';
+import { options } from './notifications';
+import { upBtnShow } from './upBtnShow';
+import ImgService from './imgService';
+import BtnControl from './btnControl';
 
 refs.formEl.addEventListener('submit', onSearch);
-refs.loadMoreBtnEl.addEventListener('click', fetchImages);
-window.addEventListener('scroll', upBtnClassToggle);
+window.addEventListener('scroll', onScroll);
+
+// 🔑🔑🔑 Unlock for manual page updating
+// refs.loadMoreBtnEl.addEventListener('click', fetchImages);
+// 🔑🔑🔑
 
 const imgService = new ImgService();
 const loadMoreBtn = new BtnControl({
@@ -24,6 +27,7 @@ function onSearch(e) {
   e.preventDefault();
 
   clearMarkup();
+  imgService.resetFetchCounter();
   imgService.resetHits();
   imgService.query = e.currentTarget.elements.searchQuery.value;
 
@@ -53,20 +57,41 @@ function fetchImages() {
 
     rendering(data);
     lightbox.refresh();
-    if (imgService.page > 2) {
-      autoscroll();
-    }
+
+    // 🔑🔑🔑 Unlock for manual page updating
+    // if (imgService.page > 2) {
+    //   autoscroll();
+    // }
+    // 🔑🔑🔑
+
     return;
   });
 }
 
-function autoscroll() {
-  const { height: cardHeight } = document
-    .querySelector('.gallery')
-    .firstElementChild.getBoundingClientRect();
+function onScroll() {
+  const docEl = document.documentElement.getBoundingClientRect();
 
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: 'smooth',
-  });
+  upBtnShow();
+
+  if (
+    docEl.top + docEl.height < 1000 &&
+    imgService.fetchCounterVal === imgService.pageCount &&
+    imgService.totalHitsAm !== imgService.hitsAmount
+  ) {
+    fetchImages();
+    imgService.fetchCounter += 1;
+  }
 }
+
+// 🔑🔑🔑 Unlock for manual page updating
+// function autoscroll() {
+//   const { height: cardHeight } = document
+//     .querySelector('.gallery')
+//     .firstElementChild.getBoundingClientRect();
+
+//   window.scrollBy({
+//     top: cardHeight * 2,
+//     behavior: 'smooth',
+//   });
+// }
+// 🔑🔑🔑

@@ -1,6 +1,6 @@
 import { refs } from './variables';
 
-export function upBtnClassToggle() {
+export function upBtnShow() {
   if (scrollY >= 1000) {
     refs.upBtnEl.classList.remove('is-hidden');
   }

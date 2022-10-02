@@ -7,6 +7,8 @@ export default class ImgService {
     this.searchQuery = '';
     this.page = 1;
     this.hits = 0;
+    this.fetchCounter = 2;
+    this.totalHits = 0;
   }
 
   async fetchImgs() {
@@ -15,6 +17,7 @@ export default class ImgService {
     );
     this.page += 1;
     this.hits += fetchResult.data.hits.length;
+    this.totalHits = fetchResult.data.totalHits;
     return fetchResult.data;
   }
 
@@ -32,6 +35,18 @@ export default class ImgService {
 
   get hitsAmount() {
     return this.hits;
+  }
+
+  get fetchCounterVal() {
+    return this.fetchCounter;
+  }
+
+  get totalHitsAm() {
+    return this.totalHits;
+  }
+
+  resetFetchCounter() {
+    this.fetchCounter = 2;
   }
 
   resetPage() {

@@ -1,7 +1,7 @@
+import Notiflix from 'notiflix';
 import { refs } from './variables';
 import { options } from './notifications';
 import BtnControl from './btnControl';
-import Notiflix from 'notiflix';
 
 const loadMoreBtn = new BtnControl({
   selector: '.load-more',
